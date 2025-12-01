@@ -1,6 +1,7 @@
 package com.example.rentyourtool.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import java.util.List;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
     
     @Id
@@ -50,25 +52,10 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-
-    // Es ist eine 1:N Beziehung weil es immer einem User zugeordnet ist
-    // Ein Vermieter (User) kann viele Inserate (Listings) haben
     @OneToMany(mappedBy = "vermieter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Listing> listings = new ArrayList<>();
 
-    // Genauso kann ein Mieter (User) viele Mietanfragen (RentalRequests) stellen
     @OneToMany(mappedBy = "mieter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RentalRequest> rentalRequests = new ArrayList<>();
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-
-    }
 }

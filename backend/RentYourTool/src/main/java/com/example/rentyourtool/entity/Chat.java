@@ -50,9 +50,5 @@ public class Chat {
         lastMessageAt = LocalDateTime. now();
     }
 
-    // Helper-Methode: Aktualisiert lastMessageAt bei neuer Nachricht
-    public void updateLastMessageTime() {
-        this.lastMessageAt = LocalDateTime.now();
-    }
 
 }
